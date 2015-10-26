@@ -1,0 +1,17 @@
+{
+  "name": "Zenter/PHP_API",
+  "description": "A simple PHP library to interface with the Zenter system",
+  "minimum-stability": "stable",
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "Andri Thorlacius",
+      "email": "andri@zenter.is"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Zenter\\API\\V1\\": "src/Zenter/API/V1/"
+    }
+  }
+}
