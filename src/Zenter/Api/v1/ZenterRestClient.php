@@ -3,7 +3,7 @@
 namespace Zenter\Api\v1
 {
 
-	class ZenterRestClient
+	class ZenterRestClient implements IHttpClient
 	{
 		private $clientId;
 		private $username;
@@ -33,28 +33,24 @@ namespace Zenter\Api\v1
 			return $this->responseCode;
 		}
 
-		public function Call($action, $data = null, $method = 'GET', $decode = true)
+		public function Call($action, array $data = null, $method = 'GET')
 		{
 			$url = $this->getFullBaseUrl() . $action;
-			//var_dump($url);
-			# headers and data (this is Api dependent, some uses XML)
+			$encodedData = '';
+
 			$headers = [
-				/*'Accept: application/json',
-				'Content-Type: application/json',*/
+				//'Accept: application/json',
+				//'Content-Type: application/json',
 			];
+
 			if (is_array($data))
 			{
-				$encodedData = '';
 				foreach ($data as $key => $value)
 				{
 					if (strlen($encodedData) > 0)
 						$encodedData .= '&';
 					$encodedData .= $key . '=' . urlencode($value);
 				}
-			}
-			else
-			{
-				$url .= $data;
 			}
 
 			$handle = curl_init();
@@ -84,9 +80,6 @@ namespace Zenter\Api\v1
 			$response = curl_exec($handle);
 
 			$this->responseCode = curl_getinfo($handle, CURLINFO_HTTP_CODE);
-
-			if ($decode)
-				return json_decode($response);
 
 			return $response;
 		}

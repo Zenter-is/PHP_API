@@ -3,11 +3,16 @@
 namespace Zenter\Api\v1
 {
 
-	class ZenterListApi extends ZenterApi
+	class ZenterListApi
 	{
-		public function __construct(ZenterRestClient $restClient)
+		/**
+		 * @var IHttpClient
+		 */
+		private $restClient;
+
+		public function __construct(IHttpClient $restClient)
 		{
-			parent::__construct($restClient);
+			$this->restClient = $restClient;
 		}
 
 		public function AddRecipient($listId, $recipientId)

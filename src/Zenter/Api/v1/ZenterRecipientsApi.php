@@ -5,7 +5,7 @@ namespace Zenter\Api\v1
 
 	use Exception;
 
-	class ZenterRecipientsApi extends ZenterApi
+	class ZenterRecipientsApi
 	{
 		private $actions = [
 			'doc'     => 'doc',
@@ -13,10 +13,14 @@ namespace Zenter\Api\v1
 			'byId'    => 'recipients/%s',
 			'byEmail' => 'recipients/by_email/%s',
 		];
+		/**
+		 * @var IHttpClient
+		 */
+		private $restClient;
 
-		public function __construct(ZenterRestClient $restClient)
+		public function __construct(IHttpClient $restClient)
 		{
-			parent::__construct($restClient);
+			$this->restClient = $restClient;
 		}
 
 		public function GetById($id)

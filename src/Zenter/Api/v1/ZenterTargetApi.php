@@ -3,11 +3,18 @@
 namespace Zenter\Api\v1
 {
 
-	class ZenterTargetApi extends ZenterApi
+	use Exception;
+
+	class ZenterTargetApi
 	{
-		public function __construct(ZenterRestClient $restClient)
+		/**
+		 * @var IHttpClient
+		 */
+		private $restClient;
+
+		public function __construct(IHttpClient $restClient)
 		{
-			parent::__construct($restClient);
+			$this->restClient = $restClient;
 		}
 
 		public function GetGroup($title)
@@ -20,7 +27,7 @@ namespace Zenter\Api\v1
 				$data = [
 					'title' => $title,
 				];
-				$result = $this->restClient->call($action, $data, 'POST', false);
+				$result = $this->restClient->call($action, $data, 'POST');
 				if (strlen($result))
 				{
 					return $result;
@@ -41,7 +48,7 @@ namespace Zenter\Api\v1
 					'title'   => $title,
 					'groupId' => $groupId,
 				];
-				$result = $this->restClient->call($action, $data, 'POST', false);
+				$result = $this->restClient->call($action, $data, 'POST');
 				if (strlen($result))
 				{
 					return $result;
@@ -62,7 +69,7 @@ namespace Zenter\Api\v1
 					'title'      => $title,
 					'categoryId' => $categoryId,
 				];
-				$result = $this->restClient->call($action, $data, 'POST', false);
+				$result = $this->restClient->call($action, $data, 'POST');
 				if (strlen($result))
 				{
 					return $result;

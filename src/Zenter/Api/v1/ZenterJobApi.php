@@ -3,18 +3,22 @@
 namespace Zenter\Api\v1
 {
 
-	class ZenterJobApi extends ZenterApi
+	class ZenterJobApi
 	{
-		public function __construct(ZenterRestClient $restClient)
+		/**
+		 * @var IHttpClient
+		 */
+		private $restClient;
+
+		public function __construct(IHttpClient $restClient)
 		{
-			parent::__construct($restClient);
+			$this->restClient = $restClient;
 		}
 
 		public function GetAll()
 		{
 			$action = '/jobs';
 			$job = $this->restClient->call($action);
-			//var_dump($job);
 		}
 
 		public function GetById($id)
@@ -28,17 +32,17 @@ namespace Zenter\Api\v1
 		public function CreateJob($data)
 		{
 			$action = '/jobs/email/';
-			$responce = $this->restClient->call($action, $data, 'POST', false);
+			$response = $this->restClient->call($action, $data, 'POST');
 
-			return $responce;
+			return $response;
 		}
 
 		public function UpdateById($id, $data)
 		{
 			$action = '/jobs/email/' . $id;
-			$responce = $this->restClient->call($action, $data, 'POST', false);
+			$response = $this->restClient->call($action, $data, 'POST');
 
-			return $responce;
+			return $response;
 		}
 
 		public function SendJob($id)
