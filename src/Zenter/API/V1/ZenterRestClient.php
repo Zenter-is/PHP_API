@@ -3,7 +3,8 @@
 namespace Zenter\API\V1
 {
 
-	class ZenterRestClient {
+	class ZenterRestClient
+	{
 		private $clientId;
 		private $username;
 		private $password;
@@ -14,10 +15,11 @@ namespace Zenter\API\V1
 		private $responseCode;
 
 		private $apiUrls = [
-			1 => '/api/v1/'
+			1 => '/api/v1/',
 		];
 
-		public function __construct($clientId, $username, $password, $baseUrl = 'zenter.is', $apiVersion = 1, $protocol = 'http') {
+		public function __construct($clientId, $username, $password, $baseUrl = 'zenter.is', $apiVersion = 1, $protocol = 'http')
+		{
 			$this->clientId = $clientId;
 			$this->username = $username;
 			$this->password = $password;
@@ -26,32 +28,27 @@ namespace Zenter\API\V1
 			$this->apiVersion = $apiVersion;
 		}
 
-		private function getApiUrl() {
-			return $this->apiUrls[$this->apiVersion];
-		}
-
-		private function getFullBaseUrl() {
-			return $this->protocol. '://' . $this->baseUrl . $this->getApiUrl();
-		}
-
-		public function GetStatusCode() {
+		public function GetStatusCode()
+		{
 			return $this->responseCode;
 		}
 
-		public function Call($action, $data = null, $method = 'GET', $decode = true) {
+		public function Call($action, $data = null, $method = 'GET', $decode = true)
+		{
 			$url = $this->getFullBaseUrl() . $action;
 			//var_dump($url);
 			# headers and data (this is API dependent, some uses XML)
-			$headers = array(
+			$headers = [
 				/*'Accept: application/json',
 				'Content-Type: application/json',*/
-			);
-			if(is_array($data))
+			];
+			if (is_array($data))
 			{
 				$encodedData = '';
-				foreach ($data as $key => $value) {
-					if(strlen($encodedData) > 0)
-						$encodedData.= '&';
+				foreach ($data as $key => $value)
+				{
+					if (strlen($encodedData) > 0)
+						$encodedData .= '&';
 					$encodedData .= $key . '=' . urlencode($value);
 				}
 			}
@@ -66,9 +63,10 @@ namespace Zenter\API\V1
 			curl_setopt($handle, CURLOPT_RETURNTRANSFER, true);
 			curl_setopt($handle, CURLOPT_SSL_VERIFYHOST, false);
 			curl_setopt($handle, CURLOPT_SSL_VERIFYPEER, false);
-			curl_setopt($handle, CURLOPT_USERPWD, $this->clientId. '_' . $this->username . ":" . $this->password);
+			curl_setopt($handle, CURLOPT_USERPWD, $this->clientId . '_' . $this->username . ":" . $this->password);
 
-			switch(strtoupper($method)) {
+			switch (strtoupper($method))
+			{
 				case 'GET':
 					break;
 				case 'POST':
@@ -87,9 +85,20 @@ namespace Zenter\API\V1
 
 			$this->responseCode = curl_getinfo($handle, CURLINFO_HTTP_CODE);
 
-			if($decode)
+			if ($decode)
 				return json_decode($response);
+
 			return $response;
+		}
+
+		private function getFullBaseUrl()
+		{
+			return $this->protocol . '://' . $this->baseUrl . $this->getApiUrl();
+		}
+
+		private function getApiUrl()
+		{
+			return $this->apiUrls[$this->apiVersion];
 		}
 	}
 }

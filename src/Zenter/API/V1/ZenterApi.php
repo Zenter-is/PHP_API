@@ -7,7 +7,8 @@ namespace Zenter\API\V1
 	{
 		protected $restClient;
 
-		public function __construct(ZenterRestClient $restClient) {
+		public function __construct(ZenterRestClient $restClient)
+		{
 			$this->restClient = $restClient;
 		}
 	}
