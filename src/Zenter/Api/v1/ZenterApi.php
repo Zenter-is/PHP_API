@@ -1,6 +1,6 @@
 <?php
 
-namespace Zenter\API\V1
+namespace Zenter\Api\v1
 {
 
 	class ZenterApi

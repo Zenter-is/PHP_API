@@ -1,6 +1,6 @@
 <?php
 
-namespace Zenter\API\V1
+namespace Zenter\Api\v1
 {
 
 	class ZenterRestClient
@@ -37,7 +37,7 @@ namespace Zenter\API\V1
 		{
 			$url = $this->getFullBaseUrl() . $action;
 			//var_dump($url);
-			# headers and data (this is API dependent, some uses XML)
+			# headers and data (this is Api dependent, some uses XML)
 			$headers = [
 				/*'Accept: application/json',
 				'Content-Type: application/json',*/

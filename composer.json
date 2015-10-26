@@ -10,7 +10,7 @@
   ],
   "autoload": {
     "psr-4": {
-      "Zenter\\API\\V1\\": "src/Zenter/API/V1/"
+      "Zenter\\Api\\v1\\": "src/Zenter/Api/v1/"
     }
   }
 }
