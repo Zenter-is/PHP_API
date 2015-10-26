@@ -1,7 +1,6 @@
 {
-  "name": "Zenter/PHP_API",
+  "name": "zenter/php_api",
   "description": "A simple PHP library to interface with the Zenter system",
-  "minimum-stability": "stable",
   "license": "proprietary",
   "authors": [
     {
