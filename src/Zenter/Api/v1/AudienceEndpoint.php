@@ -20,7 +20,7 @@ namespace Zenter\Api\v1
 		public function GetGroup($title)
 		{
 			$action = '/audiences/groups/byTitle/' . rawurlencode($title);
-			$result = $this->restClient->call($action);
+			$result = (array)$this->restClient->call($action);
 			if (count($result) < 1)
 			{
 				$action = '/audiences/groups/add/';
@@ -61,7 +61,7 @@ namespace Zenter\Api\v1
 		public function GetTarget($title, $categoryId)
 		{
 			$action = '/audiences/byTitle/' . $categoryId . '/' . rawurlencode($title);
-			$result = $this->restClient->call($action);
+			$result = (array)$this->restClient->call($action);
 			if (count($result) < 1)
 			{
 				$action = '/audiences/add/';
