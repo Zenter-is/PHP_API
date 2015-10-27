@@ -5,7 +5,7 @@ namespace Zenter\Api\v1
 
 	use Exception;
 
-	class ZenterTargetApi
+	class AudienceEndpoint
 	{
 		/**
 		 * @var IHttpClient

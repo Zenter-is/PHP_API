@@ -3,7 +3,7 @@
 namespace Zenter\Api\v1
 {
 
-	class ZenterRestClient implements IHttpClient
+	class CurlHttpClient implements IHttpClient
 	{
 		private $clientId;
 		private $username;

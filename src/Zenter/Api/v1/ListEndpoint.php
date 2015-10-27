@@ -3,7 +3,7 @@
 namespace Zenter\Api\v1
 {
 
-	class ZenterListApi
+	class ListEndpoint
 	{
 		/**
 		 * @var IHttpClient
