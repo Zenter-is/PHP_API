@@ -23,6 +23,11 @@ class Api
 
 	/**
 	 * Api constructor.
+	 *
+	 * @param string $username
+	 * @param string $password
+	 * @param string $domain
+	 * @param string $protocol
 	 */
 	public function __construct($username, $password, $domain = 'samskipti.zenter.is', $protocol = 'https')
 	{

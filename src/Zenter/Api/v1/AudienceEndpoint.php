@@ -12,16 +12,28 @@ namespace Zenter\Api\v1
 		 */
 		private $restClient;
 
+		/**
+		 * @param IHttpClient $restClient
+		 */
 		public function __construct(IHttpClient $restClient)
 		{
 			$this->restClient = $restClient;
 		}
 
+		/**
+		 * @param string $title
+		 *
+		 * @return string
+		 * @throws Exception
+		 */
 		public function GetGroup($title)
 		{
 			$action = '/audiences/groups/byTitle/' . rawurlencode($title);
-			$result = (array)$this->restClient->call($action);
-			if (count($result) < 1)
+
+			$data = $this->restClient->call($action);
+			$groups = Helper::JsonToArray($data);
+
+			if (count($groups) < 1)
 			{
 				$action = '/audiences/groups/add/';
 				$data = [
@@ -32,16 +44,29 @@ namespace Zenter\Api\v1
 				{
 					return $result;
 				}
+				throw new Exception('Unable to create a group');
 			}
 
-			return current($result)->id;
+			return current($groups)->id;
 		}
 
+		/**
+		 * @param string $title
+		 * @param int    $groupId
+		 *
+		 * @return string
+		 * @throws Exception
+		 */
 		public function GetCategory($title, $groupId)
 		{
+			#TODO: Lookup should use groupId
 			$action = '/audiences/categories/byTitle/' . rawurlencode($title);
-			$result = (array)$this->restClient->call($action);
-			if (count($result) < 1)
+
+			$data = $this->restClient->call($action);
+
+			$categories = Helper::JsonToArray($data);
+
+			if (count($categories) < 1)
 			{
 				$action = '/audiences/categories/add/';
 				$data = [
@@ -55,14 +80,30 @@ namespace Zenter\Api\v1
 				}
 			}
 
-			return current($result)->id;
+			foreach($categories as $category)
+			{
+				if($category->groupId == $groupId)
+					return $category->id;
+			}
+
+			throw new Exception('Unable to create category');
 		}
 
-		public function GetTarget($title, $categoryId)
+		/**
+		 * @param string $title
+		 * @param int    $categoryId
+		 *
+		 * @return string
+		 * @throws Exception
+		 */
+		public function GetAudience($title, $categoryId)
 		{
 			$action = '/audiences/byTitle/' . $categoryId . '/' . rawurlencode($title);
-			$result = (array)$this->restClient->call($action);
-			if (count($result) < 1)
+
+			$data = $this->restClient->call($action);
+			$audiences = Helper::JsonToArray($data);
+
+			if (count($audiences) < 1)
 			{
 				$action = '/audiences/add/';
 				$data = [
@@ -74,13 +115,19 @@ namespace Zenter\Api\v1
 				{
 					return $result;
 				}
+				throw new Exception('Unable to create audience');
 			}
-			else
-			{
-				return current($result)->id;
-			}
+
+
+			return current($audiences)->id;
 		}
 
+		/**
+		 * @param int $target
+		 * @param int $recipient
+		 *
+		 * @return bool
+		 */
 		public function AddRecipient($target, $recipient)
 		{
 			$action = '/audiences/recipients/add/' . $target . '/' . $recipient;
@@ -94,6 +141,12 @@ namespace Zenter\Api\v1
 			throw new Exception('Functionality not yet implemented');
 		}
 
+		/**
+		 * @param int $recipient
+		 * @param int $target
+		 *
+		 * @return bool
+		 */
 		public function RemoveRecipientFromTarget($recipient, $target)
 		{
 			$action = '/audiences/recipients/remove/' . $target . '/' . $recipient;
