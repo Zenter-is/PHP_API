@@ -19,11 +19,11 @@ namespace Zenter\Api\v1
 
 		public function GetGroup($title)
 		{
-			$action = '/targets/groups/byTitle/' . rawurlencode($title);
+			$action = '/audiences/groups/byTitle/' . rawurlencode($title);
 			$result = $this->restClient->call($action);
 			if (count($result) < 1)
 			{
-				$action = '/targets/groups/add/';
+				$action = '/audiences/groups/add/';
 				$data = [
 					'title' => $title,
 				];
@@ -39,11 +39,11 @@ namespace Zenter\Api\v1
 
 		public function GetCategory($title, $groupId)
 		{
-			$action = '/targets/categories/byTitle/' . rawurlencode($title);
+			$action = '/audiences/categories/byTitle/' . rawurlencode($title);
 			$result = (array)$this->restClient->call($action);
 			if (count($result) < 1)
 			{
-				$action = '/targets/categories/add/';
+				$action = '/audiences/categories/add/';
 				$data = [
 					'title'   => $title,
 					'groupId' => $groupId,
@@ -60,11 +60,11 @@ namespace Zenter\Api\v1
 
 		public function GetTarget($title, $categoryId)
 		{
-			$action = '/targets/byTitle/' . $categoryId . '/' . rawurlencode($title);
+			$action = '/audiences/byTitle/' . $categoryId . '/' . rawurlencode($title);
 			$result = $this->restClient->call($action);
 			if (count($result) < 1)
 			{
-				$action = '/targets/add/';
+				$action = '/audiences/add/';
 				$data = [
 					'title'      => $title,
 					'categoryId' => $categoryId,
@@ -83,8 +83,8 @@ namespace Zenter\Api\v1
 
 		public function AddRecipient($target, $recipient)
 		{
-			$action = '/targets/recipients/add/' . $target . '/' . $recipient;
-			$result = $this->restClient->call($action);
+			$action = '/audiences/recipients/add/' . $target . '/' . $recipient;
+			$this->restClient->call($action);
 
 			return ($this->restClient->GetStatusCode() == 200);
 		}
@@ -96,16 +96,17 @@ namespace Zenter\Api\v1
 
 		public function RemoveRecipientFromTarget($recipient, $target)
 		{
-			$action = '/targets/recipients/remove/' . $target . '/' . $recipient;
-			$result = $this->restClient->call($action);
+			$action = '/audiences/recipients/remove/' . $target . '/' . $recipient;
+			$this->restClient->call($action);
 
 			return ($this->restClient->GetStatusCode() == 200);
 		}
 
 		public function FlushTarget($target)
 		{
-			$action = '/targets/recipients/flush/';
-			$result = $this->restClient->call($action);
+			throw new Exception('Not Yet completed');
+			$action = '/audiences/recipients/flush/';
+			$this->restClient->call($action);
 
 			return ($this->restClient->GetStatusCode() == 200);
 		}
