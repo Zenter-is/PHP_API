@@ -18,7 +18,7 @@ namespace Zenter\Api\v1
 		public function AddRecipient($listId, $recipientId)
 		{
 			$action = "/lists/" . $listId . "/recipients/add/" . $recipientId;
-			$add = $this->restClient->call($action);
+			$this->restClient->call($action);
 		}
 	}
 }

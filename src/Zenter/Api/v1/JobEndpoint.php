@@ -18,7 +18,7 @@ namespace Zenter\Api\v1
 		public function GetAll()
 		{
 			$action = '/jobs';
-			$job = $this->restClient->call($action);
+			$this->restClient->call($action);
 		}
 
 		public function GetById($id)
@@ -48,7 +48,7 @@ namespace Zenter\Api\v1
 		public function SendJob($id)
 		{
 			$action = '/jobs/email/' . $id . '/send';
-			$job = $this->restClient->call($action);
+			$this->restClient->call($action);
 		}
 	}
 }

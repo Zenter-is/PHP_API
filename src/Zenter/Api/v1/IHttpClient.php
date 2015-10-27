@@ -15,25 +15,8 @@ namespace Zenter\Api\v1
 		function call($action, array $data = null, $method = 'GET');
 
 		/**
-		 * @param string $username
-		 * @param string $password
-		 *
-		 * @return void
+		 * @return int
 		 */
-		function setAuth($username,$password);
-
-		/**
-		 * @param string $url
-		 *
-		 * @return void
-		 */
-		function setBaseUrl($url);
-
-		/**
-		 * @param string $protocol
-		 *
-		 * @return mixed
-		 */
-		function setProtocol($protocol);
+		public function GetStatusCode();
 	}
 }

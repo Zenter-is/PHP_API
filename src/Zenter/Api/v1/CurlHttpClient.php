@@ -9,7 +9,6 @@ namespace Zenter\Api\v1
 		private $password;
 		private $baseUrl;
 		private $protocol;
-		private $apiVersion;
 
 		private $responseCode;
 
@@ -27,7 +26,7 @@ namespace Zenter\Api\v1
 
 		public function Call($action, array $data = null, $method = 'GET')
 		{
-			$url = $this->baseUrl . $action;
+			$url = $this->getFullBaseUrl() . $action;
 			$encodedData = '';
 
 			$headers = [
@@ -78,7 +77,7 @@ namespace Zenter\Api\v1
 
 		private function getFullBaseUrl()
 		{
-			return $this->protocol . '://' . $this->baseUrl . $this->getApiUrl();
+			return $this->protocol . '://' . $this->baseUrl;
 		}
 
 
@@ -88,7 +87,7 @@ namespace Zenter\Api\v1
 		 *
 		 * @return void
 		 */
-		private function setAuth($username, $password)
+		protected function setAuth($username, $password)
 		{
 			$this->username = $username;
 			$this->password = $password;
@@ -99,7 +98,7 @@ namespace Zenter\Api\v1
 		 *
 		 * @return void
 		 */
-		private function setBaseUrl($url)
+		protected function setBaseUrl($url)
 		{
 			if(substr($url,strlen($url) -1) !== '/')
 			{
@@ -113,7 +112,7 @@ namespace Zenter\Api\v1
 		 *
 		 * @return mixed
 		 */
-		private function setProtocol($protocol)
+		protected function setProtocol($protocol)
 		{
 			$this->protocol = $protocol;
 		}
