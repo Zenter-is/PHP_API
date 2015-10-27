@@ -5,7 +5,6 @@ namespace Zenter\Api\v1
 
 	class CurlHttpClient implements IHttpClient
 	{
-		private $clientId;
 		private $username;
 		private $password;
 		private $baseUrl;
@@ -14,10 +13,11 @@ namespace Zenter\Api\v1
 
 		private $responseCode;
 
-		public function __construct($clientId, $username, $password, $baseUrl = 'zenter.is', $apiVersion = 1, $protocol = 'http')
+		public function __construct($username, $password, $baseUrl, $protocol)
 		{
-			$this->clientId = $clientId;
-			$this->apiVersion = $apiVersion;
+			$this->setAuth($username,$password);
+			$this->setBaseUrl($baseUrl);
+			$this->setProtocol($protocol);
 		}
 
 		public function GetStatusCode()
@@ -27,7 +27,7 @@ namespace Zenter\Api\v1
 
 		public function Call($action, array $data = null, $method = 'GET')
 		{
-			$url = $this->getFullBaseUrl() . $action;
+			$url = $this->baseUrl . $action;
 			$encodedData = '';
 
 			$headers = [
@@ -51,7 +51,7 @@ namespace Zenter\Api\v1
 			curl_setopt($handle, CURLOPT_RETURNTRANSFER, true);
 			curl_setopt($handle, CURLOPT_SSL_VERIFYHOST, false);
 			curl_setopt($handle, CURLOPT_SSL_VERIFYPEER, false);
-			curl_setopt($handle, CURLOPT_USERPWD, $this->clientId . '_' . $this->username . ":" . $this->password);
+			curl_setopt($handle, CURLOPT_USERPWD, $this->username . ":" . $this->password);
 
 			switch (strtoupper($method))
 			{
@@ -81,10 +81,6 @@ namespace Zenter\Api\v1
 			return $this->protocol . '://' . $this->baseUrl . $this->getApiUrl();
 		}
 
-		private function getApiUrl()
-		{
-			return $this->apiUrls[$this->apiVersion];
-		}
 
 		/**
 		 * @param string $username
@@ -92,7 +88,7 @@ namespace Zenter\Api\v1
 		 *
 		 * @return void
 		 */
-		public function setAuth($username, $password)
+		private function setAuth($username, $password)
 		{
 			$this->username = $username;
 			$this->password = $password;
@@ -103,8 +99,12 @@ namespace Zenter\Api\v1
 		 *
 		 * @return void
 		 */
-		public function setBaseUrl($url)
+		private function setBaseUrl($url)
 		{
+			if(substr($url,strlen($url) -1) !== '/')
+			{
+				$url .= '/';
+			}
 			$this->baseUrl = $url;
 		}
 
@@ -113,7 +113,7 @@ namespace Zenter\Api\v1
 		 *
 		 * @return mixed
 		 */
-		public function setProtocol($protocol)
+		private function setProtocol($protocol)
 		{
 			$this->protocol = $protocol;
 		}

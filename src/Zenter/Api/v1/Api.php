@@ -26,20 +26,13 @@ class Api
 	 * @var AudienceEndpoint
 	 */
 	public $audiences;
-	/**
-	 * @var IHttpClient
-	 */
-	private $client;
 
 	/**
 	 * Api constructor.
 	 */
-	public function __construct(IHttpClient $client, $username, $password, $domain = 'samskipti.zenter.is', $protocol = 'https')
+	public function __construct($username, $password, $domain = 'samskipti.zenter.is', $protocol = 'https')
 	{
-		$client->setAuth($username, $password);
-		$client->setBaseUrl('/api/v1/');
-		$client->setProtocol($protocol);
-		$this->client = $client;
+		$client = new CurlHttpClient($username, $password, $domain, $protocol);
 
 		$this->recipients = new RecipientEndpoint($client);
 		$this->jobs = new JobEndpoint($client);
