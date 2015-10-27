@@ -14,17 +14,9 @@ namespace Zenter\Api\v1
 
 		private $responseCode;
 
-		private $apiUrls = [
-			1 => '/api/v1/',
-		];
-
 		public function __construct($clientId, $username, $password, $baseUrl = 'zenter.is', $apiVersion = 1, $protocol = 'http')
 		{
 			$this->clientId = $clientId;
-			$this->username = $username;
-			$this->password = $password;
-			$this->baseUrl = $baseUrl;
-			$this->protocol = $protocol;
 			$this->apiVersion = $apiVersion;
 		}
 
@@ -92,6 +84,38 @@ namespace Zenter\Api\v1
 		private function getApiUrl()
 		{
 			return $this->apiUrls[$this->apiVersion];
+		}
+
+		/**
+		 * @param string $username
+		 * @param string $password
+		 *
+		 * @return void
+		 */
+		public function setAuth($username, $password)
+		{
+			$this->username = $username;
+			$this->password = $password;
+		}
+
+		/**
+		 * @param string $url
+		 *
+		 * @return void
+		 */
+		public function setBaseUrl($url)
+		{
+			$this->baseUrl = $url;
+		}
+
+		/**
+		 * @param string $protocol
+		 *
+		 * @return mixed
+		 */
+		public function setProtocol($protocol)
+		{
+			$this->protocol = $protocol;
 		}
 	}
 }

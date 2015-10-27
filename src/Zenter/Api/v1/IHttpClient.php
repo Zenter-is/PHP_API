@@ -13,5 +13,27 @@ namespace Zenter\Api\v1
 		 * @return string    The response
 		 */
 		public function call($action, array $data = null, $method = 'GET');
+
+		/**
+		 * @param string $username
+		 * @param string $password
+		 *
+		 * @return void
+		 */
+		public function setAuth($username,$password);
+
+		/**
+		 * @param string $url
+		 *
+		 * @return void
+		 */
+		public function setBaseUrl($url);
+
+		/**
+		 * @param string $protocol
+		 *
+		 * @return mixed
+		 */
+		public function setProtocol($protocol);
 	}
 }
