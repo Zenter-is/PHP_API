@@ -23,6 +23,12 @@ namespace Zenter\Api\v1
 			$this->restClient = $restClient;
 		}
 
+		/**
+		 * @param $id
+		 *
+		 * @return null|object
+		 * @throws Exception
+		 */
 		public function GetById($id)
 		{
 			if (!is_numeric($id))
@@ -31,60 +37,87 @@ namespace Zenter\Api\v1
 			}
 
 			$action = "/recipients/" . $id;
+			$data = $this->restClient->Call($action);
 
-			return $this->restClient->Call($action);
+			return Helper::JsonToObject($data);
 		}
 
+		/**
+		 * @param string $email
+		 *
+		 * @return null|object
+		 * @throws Exception
+		 */
 		public function GetByEmail($email)
 		{
 			if (filter_var($email, FILTER_VALIDATE_EMAIL))
 			{
-				$recipient = $this->restClient->Call(sprintf($this->actions['byEmail'], urlencode($email)));
+				$recipientData = $this->restClient->Call(sprintf($this->actions['byEmail'], urlencode($email)));
 				if ($this->restClient->GetStatusCode() == 200)
 				{
-					return $recipient;
+					return Helper::JsonToObject($recipientData);
 				}
 
-				return null;
 			}
+			return null;
 		}
 
-		public function GetDoc()
-		{
-			return $this->restClient->Call($this->actions['doc'], null, 'GET', false);
-		}
-
+		/**
+		 * @return array|null
+		 * @throws Exception
+		 */
 		public function GetAll()
 		{
-			return $this->restClient->Call($this->actions['global']);
+			$data = json_decode($this->restClient->Call($this->actions['global']));
+			return Helper::JsonToArray($data);
 		}
 
-		public function CreateRecipient($data)
+		/**
+		 * @param array $data
+		 *
+		 * @return null|object
+		 * @throws Exception
+		 */
+		public function CreateRecipient(array $data)
 		{
 			$recipient = $this->restClient->Call(sprintf($this->actions['global']), $data, 'POST');
 
-			return $recipient;
+			return Helper::JsonToObject($recipient);
 		}
 
-		public function UpdateRecipientById($id, $data)
+		/**
+		 * @param       $id
+		 * @param array $data
+		 *
+		 * @return null|object
+		 * @throws Exception
+		 */
+		public function UpdateRecipientById($id, array $data)
 		{
 			if (!is_numeric($id))
 			{
 				throw new Exception("Id can only be numeric");
 			}
 
-			return $this->restClient->Call(sprintf($this->actions['byId'], $id), $data, 'POST');
+			$data = $this->restClient->Call(sprintf($this->actions['byId'], $id), $data, 'POST');
+			return Helper::JsonToObject($data);
 		}
 
-		public function UpdateRecipientByEmail($email, $data)
+		/**
+		 * @param string $email
+		 * @param array $data
+		 *
+		 * @return null|object
+		 * @throws Exception
+		 */
+		public function UpdateRecipientByEmail($email, array $data)
 		{
 			$recipient = $this->restClient->Call(sprintf($this->actions['byEmail'], urlencode($email)), $data, 'POST');
 			if ($this->restClient->GetStatusCode() != 200)
 			{
 				$recipient = $this->CreateRecipient($data);
 			}
-
-			return $recipient;
+			return Helper::JsonToObject($recipient);
 		}
 
 	}
