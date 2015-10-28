@@ -59,8 +59,7 @@ namespace Zenter\Api\v1
 		 */
 		public function GetCategory($title, $groupId)
 		{
-			#TODO: Lookup should use groupId
-			$action = '/audiences/categories/byTitle/' . rawurlencode($title);
+			$action = '/audiences/categories/byTitle/' . rawurlencode($title) . '/' . $groupId;
 
 			$data = $this->restClient->call($action);
 
