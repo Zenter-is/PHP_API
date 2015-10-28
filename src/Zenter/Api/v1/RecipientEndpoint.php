@@ -8,10 +8,12 @@ namespace Zenter\Api\v1
 	class RecipientEndpoint
 	{
 		private $actions = [
-			'doc'     => 'doc',
-			'global'  => 'recipients/',
-			'byId'    => 'recipients/%s',
-			'byEmail' => 'recipients/by_email/%s',
+			'doc'     		=> 'doc',
+			'global'  		=> 'recipients/',
+			'byId'    		=> 'recipients/%s',
+			'byEmail' 		=> 'recipients/by_email/%s',
+			'getContacts' 	=> 'recipients/get_contacts/%s',
+			'AddContact' 	=> 'recipients/add_contact/%s',
 		];
 		/**
 		 * @var IHttpClient
@@ -120,6 +122,36 @@ namespace Zenter\Api\v1
 			return Helper::JsonToObject($recipient);
 		}
 
+		/**
+		 * @param $id
+		 *
+		 * @return array|null
+		 * @throws Exception
+		 */
+		public function GetAllContacts($id)
+		{
+			$data = $this->restClient->Call(sprintf($this->actions['contacts'], $id));
+			return Helper::JsonToArray($data);
+		}
+
+		/**
+		 * @param $company_id
+		 * @param $contact_id
+		 * @param string $position
+		 *
+		 * @return bool
+		 * @throws Exception
+		 */
+		public function AddContact($company_id, $contact_id, $position)
+		{
+			$data = [
+					'recipient_id' => $contact_id,
+					'position' => $position,
+				];
+			$this->restClient->Call(sprintf($this->actions['contacts'], $company_id), $data, 'POST');
+
+			return ($this->restClient->GetStatusCode() == 200);
+		}
 	}
 }
 
