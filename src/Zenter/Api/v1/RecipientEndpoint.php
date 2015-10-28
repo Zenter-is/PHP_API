@@ -130,7 +130,7 @@ namespace Zenter\Api\v1
 		 */
 		public function GetAllContacts($id)
 		{
-			$data = $this->restClient->Call(sprintf($this->actions['contacts'], $id));
+			$data = $this->restClient->Call(sprintf($this->actions['getContacts'], $id));
 			return Helper::JsonToArray($data);
 		}
 
@@ -148,7 +148,7 @@ namespace Zenter\Api\v1
 					'recipient_id' => $contact_id,
 					'position' => $position,
 				];
-			$this->restClient->Call(sprintf($this->actions['contacts'], $company_id), $data, 'POST');
+			$this->restClient->Call(sprintf($this->actions['AddContact'], $company_id), $data, 'POST');
 
 			return ($this->restClient->GetStatusCode() == 200);
 		}
