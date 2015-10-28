@@ -31,7 +31,7 @@ class Api
 	 */
 	public function __construct($username, $password, $domain = 'samskipti.zenter.is', $protocol = 'https')
 	{
-		$client = new CurlHttpClient($username, $password, $domain, $protocol);
+		$client = new CurlHttpClient($username, $password, $domain .'/api/v1/', $protocol);
 
 		$this->recipients = new RecipientEndpoint($client);
 		$this->jobs = new JobEndpoint($client);
