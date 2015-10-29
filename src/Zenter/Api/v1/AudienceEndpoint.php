@@ -83,7 +83,7 @@ namespace Zenter\Api\v1
 				}
 			}
 
-			$categories = Helper::JsonToArray($apiResult);
+			$categories = Helper::ForceJsonToArray($apiResult);
 
 			foreach($categories as $category)
 			{
