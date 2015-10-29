@@ -128,14 +128,20 @@ namespace Zenter\Api\v1
 		}
 
 		/**
-		 * @param int $target
-		 * @param int $recipient
+		 * @param int $audienceId
+		 * @param int $recipientId
 		 *
 		 * @return bool
 		 */
-		public function AddRecipient($target, $recipient)
+		public function AddRecipient($audienceId, $recipientId)
 		{
-			$action = '/audiences/recipients/add/' . $target . '/' . $recipient;
+			if ($recipientId)
+				throw new Exception("No recipientId passed into function");
+
+			if ($audienceId)
+				throw new Exception("No audienceId passed into function");
+
+			$action = '/audiences/recipients/add/' . $audienceId . '/' . $recipientId;
 			$this->restClient->call($action);
 
 			return ($this->restClient->GetStatusCode() == 200);
