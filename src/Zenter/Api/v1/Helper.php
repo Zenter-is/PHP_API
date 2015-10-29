@@ -18,7 +18,7 @@ final class Helper
 		if($data === false)
 			return null;
 
-		if(!is_array($data) && !is_object($data))
+		if(!is_object($data))
 			throw new Exception("Json does not represent a object");
 
 		return (object)$data;
@@ -36,7 +36,7 @@ final class Helper
 		if($data === false)
 			return null;
 
-		if(!is_array($data) && !is_object($data))
+		if(!is_array($data))
 			throw new Exception("Json does not represent an array");
 
 		return (array)$data;
