@@ -68,7 +68,7 @@ namespace Zenter\Api\v1
 			$action = '/audiences/categories/byTitle/';
 
 			$getData = [
-				'title'   => rawurlencode($title),
+				'title'   => $title,
 				'groupId' => $groupId,
 			];
 
