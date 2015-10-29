@@ -95,20 +95,54 @@ namespace Zenter\Api\v1
 		}
 
 		/**
-		 * @param string $title
-		 * @param int    $categoryId
+		 * @param $audienceId
+		 *
+		 * @return null|object
+		 * @throws Exception
+		 */
+		public function GetAudienceById($audienceId)
+		{
+			if(!$audienceId && is_numeric($audienceId))
+			{
+				throw new Exception('Audience id missing');
+			}
+
+			$action = '/audiences/byId/'.$audienceId;
+
+			$rawData = $this->restClient->call($action);
+
+			if($rawData)
+			{
+				return Helper::JsonToObject($rawData);
+			}
+			return null;
+		}
+
+		/**
+		 * @param           $title
+		 * @param           $categoryId
+		 * @param bool|true $createOnFailure
 		 *
 		 * @return string
 		 * @throws Exception
 		 */
-		public function GetAudience($title, $categoryId)
+		public function GetAudienceByTitle($title, $categoryId, $createOnFailure = true)
 		{
+			if(!$title)
+			{
+				throw new Exception('Trying to create an audience without title. Title missing');
+			}
+			if(!$categoryId)
+			{
+				throw new Exception('Trying to find an audience without category scope. Category id missing');
+			}
+
 			$action = '/audiences/byTitle/' . $categoryId . '/' . rawurlencode($title);
 
 			$data = $this->restClient->call($action);
 			$audiences = Helper::ForceJsonToArray($data);
 
-			if (count($audiences) < 1)
+			if (count($audiences) < 1 && $createOnFailure)
 			{
 				$action = '/audiences/add/';
 				$data = [
