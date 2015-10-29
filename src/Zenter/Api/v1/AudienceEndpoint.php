@@ -46,7 +46,7 @@ namespace Zenter\Api\v1
 				throw new Exception('Unable to create a group');
 			}
 
-			$groups = Helper::JsonToArray($data);
+			$groups = Helper::ForceJsonToArray($data);
 
 			return current($groups)->id;
 		}

@@ -14,7 +14,11 @@ final class Helper
 	 */
 	public static function JsonToObject($jsonInput)
 	{
+		if ($jsonInput === '')
+			throw new Exception("jsonInput cannot be a empty string");
+
 		$data = json_decode($jsonInput);
+
 		if($data === false)
 			return null;
 
@@ -32,12 +36,35 @@ final class Helper
 	 */
 	public static function JsonToArray($jsonInput)
 	{
+		if ($jsonInput === '')
+			throw new Exception("jsonInput cannot be a empty string");
+
 		$data = json_decode($jsonInput);
+
 		if($data === false)
 			return null;
 
 		if(!is_array($data))
 			throw new Exception("Json does not represent an array");
+
+		return (array)$data;
+	}
+
+	/**
+	 * @param $jsonInput
+	 *
+	 * @return array|null
+	 * @throws Exception
+	 */
+	public static function ForceJsonToArray($jsonInput)
+	{
+		if ($jsonInput === '')
+			throw new Exception("jsonInput cannot be a empty string");
+
+		$data = json_decode($jsonInput);
+
+		if($data === false)
+			return null;
 
 		return (array)$data;
 	}
