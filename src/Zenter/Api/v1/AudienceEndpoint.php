@@ -106,7 +106,7 @@ namespace Zenter\Api\v1
 			$action = '/audiences/byTitle/' . $categoryId . '/' . rawurlencode($title);
 
 			$data = $this->restClient->call($action);
-			$audiences = Helper::JsonToArray($data);
+			$audiences = Helper::ForceJsonToArray($data);
 
 			if (count($audiences) < 1)
 			{
