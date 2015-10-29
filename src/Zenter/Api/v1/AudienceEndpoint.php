@@ -59,9 +59,14 @@ namespace Zenter\Api\v1
 		 */
 		public function GetCategory($title, $groupId)
 		{
-			$action = '/audiences/categories/byTitle/' . rawurlencode($title) . '/' . $groupId;
+			$action = '/audiences/categories/byTitle/';
 
-			$data = $this->restClient->call($action);
+			$getData = [
+				'title'   => rawurlencode($title),
+				'groupId' => $groupId,
+			];
+
+			$data = $this->restClient->call($action, $getData);
 
 			$categories = Helper::JsonToArray($data);
 
