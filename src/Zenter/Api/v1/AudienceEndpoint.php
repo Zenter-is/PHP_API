@@ -135,10 +135,10 @@ namespace Zenter\Api\v1
 		 */
 		public function AddRecipient($audienceId, $recipientId)
 		{
-			if ($recipientId)
+			if (!$recipientId)
 				throw new Exception("No recipientId passed into function");
 
-			if ($audienceId)
+			if (!$audienceId)
 				throw new Exception("No audienceId passed into function");
 
 			$action = '/audiences/recipients/add/' . $audienceId . '/' . $recipientId;
