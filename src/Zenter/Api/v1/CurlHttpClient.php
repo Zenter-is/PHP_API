@@ -45,29 +45,34 @@ namespace Zenter\Api\v1
 			}
 
 			$handle = curl_init();
-			curl_setopt($handle, CURLOPT_URL, $url);
+
+			switch (strtoupper($method))
+			{
+				case 'GET':
+					curl_setopt($handle, CURLOPT_URL, $url . '?' . $encodedData);
+					break;
+				case 'POST':
+					curl_setopt($handle, CURLOPT_URL, $url);
+					curl_setopt($handle, CURLOPT_POST, true);
+					curl_setopt($handle, CURLOPT_POSTFIELDS, $encodedData);
+					break;
+				case 'PUT':
+					curl_setopt($handle, CURLOPT_URL, $url);
+					curl_setopt($handle, CURLOPT_CUSTOMREQUEST, 'PUT');
+					curl_setopt($handle, CURLOPT_POSTFIELDS, $encodedData);
+					break;
+				case 'DELETE':
+					curl_setopt($handle, CURLOPT_URL, $url);
+					curl_setopt($handle, CURLOPT_CUSTOMREQUEST, 'DELETE');
+					break;
+			}
+
 			curl_setopt($handle, CURLOPT_HTTPHEADER, $headers);
 			curl_setopt($handle, CURLOPT_RETURNTRANSFER, true);
 			curl_setopt($handle, CURLOPT_SSL_VERIFYHOST, false);
 			curl_setopt($handle, CURLOPT_SSL_VERIFYPEER, false);
 			curl_setopt($handle, CURLOPT_USERPWD, $this->username . ":" . $this->password);
 
-			switch (strtoupper($method))
-			{
-				case 'GET':
-					break;
-				case 'POST':
-					curl_setopt($handle, CURLOPT_POST, true);
-					curl_setopt($handle, CURLOPT_POSTFIELDS, $encodedData);
-					break;
-				case 'PUT':
-					curl_setopt($handle, CURLOPT_CUSTOMREQUEST, 'PUT');
-					curl_setopt($handle, CURLOPT_POSTFIELDS, $encodedData);
-					break;
-				case 'DELETE':
-					curl_setopt($handle, CURLOPT_CUSTOMREQUEST, 'DELETE');
-					break;
-			}
 			$response = curl_exec($handle);
 
 			$this->responseCode = curl_getinfo($handle, CURLINFO_HTTP_CODE);
