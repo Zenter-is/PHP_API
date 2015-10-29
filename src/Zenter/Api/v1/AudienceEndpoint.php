@@ -32,14 +32,7 @@ namespace Zenter\Api\v1
 
 			$data = $this->restClient->call($action);
 
-			if ($this->restClient->GetStatusCode() != 200)
-			{
-				throw new Exception('Unable to call get byTitle groups');
-			}
-
-			$groups = Helper::JsonToArray($data);
-
-			if (count($groups) < 1)
+			if ($this->restClient->GetStatusCode() === 404)
 			{
 				$action = '/audiences/groups/add/';
 				$data = [
@@ -52,6 +45,8 @@ namespace Zenter\Api\v1
 				}
 				throw new Exception('Unable to create a group');
 			}
+
+			$groups = Helper::JsonToArray($data);
 
 			return current($groups)->id;
 		}
@@ -72,16 +67,9 @@ namespace Zenter\Api\v1
 				'groupId' => $groupId,
 			];
 
-			$data = $this->restClient->call($action, $getData);
+			$apiResult = $this->restClient->call($action, $getData);
 
-			if ($this->restClient->GetStatusCode() != 200)
-			{
-				throw new Exception('Unable to call get byTitle categories');
-			}
-
-			$categories = Helper::JsonToArray($data);
-
-			if (count($categories) < 1)
+			if ($this->restClient->GetStatusCode() === 404)
 			{
 				$action = '/audiences/categories/add/';
 				$data = [
@@ -94,6 +82,8 @@ namespace Zenter\Api\v1
 					return $result;
 				}
 			}
+
+			$categories = Helper::JsonToArray($apiResult);
 
 			foreach($categories as $category)
 			{
