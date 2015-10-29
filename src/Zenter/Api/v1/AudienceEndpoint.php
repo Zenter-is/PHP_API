@@ -31,6 +31,12 @@ namespace Zenter\Api\v1
 			$action = '/audiences/groups/byTitle/' . rawurlencode($title);
 
 			$data = $this->restClient->call($action);
+
+			if ($this->restClient->GetStatusCode() != 200)
+			{
+				throw new Exception('Unable to call get byTitle groups');
+			}
+
 			$groups = Helper::JsonToArray($data);
 
 			if (count($groups) < 1)
@@ -67,6 +73,11 @@ namespace Zenter\Api\v1
 			];
 
 			$data = $this->restClient->call($action, $getData);
+
+			if ($this->restClient->GetStatusCode() != 200)
+			{
+				throw new Exception('Unable to call get byTitle categories');
+			}
 
 			$categories = Helper::JsonToArray($data);
 
