@@ -67,7 +67,7 @@ namespace Zenter\Api\v1
 
 		public function GetByKt($kt)
 		{
-			if (filter_var($kt, FILTER_VALIDATE_EMAIL))
+			if ($kt > 0)
 			{
 				$recipientData = $this->restClient->Call(sprintf($this->actions['byKt'], urlencode($kt)));
 				if ($this->restClient->GetStatusCode() == 200)
