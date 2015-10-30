@@ -114,7 +114,7 @@ namespace Zenter\Api\v1
 
 			$rawData = $this->restClient->call($action);
 
-			if(!$rawData)
+			if(!$rawData || $this->restClient->GetStatusCode() !== 200)
 			{
 				return null;
 			}
