@@ -21,45 +21,48 @@ namespace Zenter\Api\v1
 		}
 
 		/**
-		 * @param string $title
+		 * @param $categoryId
 		 *
-		 * @return string
+		 * @return null|object
 		 * @throws Exception
 		 */
-		public function GetGroup($title)
+		public function GetCategoryById($categoryId)
 		{
-			$action = '/audiences/groups/byTitle/' . rawurlencode($title);
-
-			$data = $this->restClient->call($action);
-
-			if ($this->restClient->GetStatusCode() === 404)
+			if(!$categoryId || !is_numeric($categoryId) || $categoryId < 1)
 			{
-				$action = '/audiences/groups/add/';
-				$data = [
-					'title' => $title,
-				];
-				$result = $this->restClient->call($action, $data, 'POST');
-				if (strlen($result))
-				{
-					return $result;
-				}
-				throw new Exception('Unable to create a group');
+				throw new Exception('Category id invalid');
 			}
 
-			$groups = Helper::ForceJsonToArray($data);
+			$action = '/audiences/category/byId/' . $categoryId;
 
-			return current($groups)->id;
+			$categoryRaw = $this->restClient->call($action);
+			if(!$categoryRaw)
+			{
+				return null;
+			}
+
+			return Helper::JsonToObject($categoryRaw);
 		}
 
 		/**
-		 * @param string $title
-		 * @param int    $groupId
+		 * @param $title
+		 * @param $groupId
 		 *
 		 * @return string
 		 * @throws Exception
 		 */
-		public function GetCategory($title, $groupId)
+		public function GetCategoryByTitle($title, $groupId)
 		{
+			if(!$title || !is_string($title))
+			{
+				throw new Exception('Title invalid. Trying to create an category without title.');
+			}
+
+			if(!$groupId || $groupId < 1)
+			{
+				throw new Exception('Group id invalid. Trying to find an category without group scope.');
+			}
+
 			$action = '/audiences/categories/byTitle/';
 
 			$getData = [
@@ -102,25 +105,25 @@ namespace Zenter\Api\v1
 		 */
 		public function GetAudienceById($audienceId)
 		{
-			if(!$audienceId && is_numeric($audienceId))
+			if(!$audienceId || !is_numeric($audienceId) || $audienceId < 1)
 			{
-				throw new Exception('Audience id missing');
+				throw new Exception('Audience id invalid');
 			}
 
 			$action = '/audiences/byId/'.$audienceId;
 
 			$rawData = $this->restClient->call($action);
 
-			if($rawData)
+			if(!$rawData)
 			{
-				return Helper::JsonToObject($rawData);
+				return null;
 			}
-			return null;
+			return Helper::JsonToObject($rawData);
 		}
 
 		/**
-		 * @param           $title
-		 * @param           $categoryId
+		 * @param		   $title
+		 * @param		   $categoryId
 		 * @param bool|true $createOnFailure
 		 *
 		 * @return string
@@ -128,13 +131,13 @@ namespace Zenter\Api\v1
 		 */
 		public function GetAudienceByTitle($title, $categoryId, $createOnFailure = true)
 		{
-			if(!$title)
+			if(!$title || !is_string($title))
 			{
-				throw new Exception('Trying to create an audience without title. Title missing');
+				throw new Exception('Title invalid. Trying to create an audience without title.');
 			}
-			if(!$categoryId)
+			if(!$categoryId || !is_numeric($categoryId) || $categoryId < 1)
 			{
-				throw new Exception('Trying to find an audience without category scope. Category id missing');
+				throw new Exception('Category id invalid. Trying to find an audience without category scope.');
 			}
 
 			$action = '/audiences/byTitle/' . $categoryId . '/' . rawurlencode($title);
@@ -146,7 +149,7 @@ namespace Zenter\Api\v1
 			{
 				$action = '/audiences/add/';
 				$data = [
-					'title'      => $title,
+					'title'	  => $title,
 					'categoryId' => $categoryId,
 				];
 				$result = $this->restClient->call($action, $data, 'POST');
@@ -207,6 +210,65 @@ namespace Zenter\Api\v1
 			$this->restClient->call($action);
 
 			return ($this->restClient->GetStatusCode() == 200);
+		}
+
+		/**
+		 * @param $groupId
+		 *
+		 * @return null|object
+		 * @throws Exception
+		 */
+		public function GetGroupById($groupId)
+		{
+			if(!$groupId || !is_numeric($groupId) || $groupId < 1)
+			{
+				throw new Exception('Group id invalid');
+			}
+
+			$action = '/audiences/groups/ById/'.$groupId;
+			$groupRaw = $this->restClient->call($action);
+
+			if(!$groupRaw)
+			{
+				return null;
+			}
+
+			return Helper::JsonToObject($groupRaw);
+		}
+
+		/**
+		 * @param $title
+		 *
+		 * @return string
+		 * @throws Exception
+		 */
+		public function GetGroupByTitle($title)
+		{
+			if(!$title || !is_string($title))
+			{
+				throw new Exception('Title invalid. Trying to create an group without title.');
+			}
+
+			$action = '/audiences/groups/byTitle/' . rawurlencode($title);
+
+			$data = $this->restClient->call($action);
+			if (!$data || $this->restClient->GetStatusCode() === 404)
+			{
+				$action = '/audiences/groups/add/';
+				$incomingData = [
+					'title' => $title,
+				];
+				$result = $this->restClient->call($action, $incomingData, 'POST');
+				if (strlen($result))
+				{
+					return $result;
+				}
+				throw new Exception('Unable to create a group');
+			}
+
+			$groups = Helper::ForceJsonToArray($data);
+
+			return current($groups)->id;
 		}
 
 	}

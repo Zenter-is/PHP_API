@@ -12,5 +12,8 @@
     "psr-4": {
       "Zenter\\Api\\v1\\": "src/Zenter/Api/v1/"
     }
+  },
+  "require-dev": {
+    "phpspec/phpspec": "@dev"
   }
 }
