@@ -33,7 +33,7 @@ namespace Zenter\Api\v1
 				throw new Exception('Category id invalid');
 			}
 
-			$action = '/audiences/category/byId/' . $categoryId;
+			$action = '/audiences/categories/byId/' . $categoryId;
 
 			$categoryRaw = $this->restClient->call($action);
 			if(!$categoryRaw)
