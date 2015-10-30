@@ -12,6 +12,7 @@ namespace Zenter\Api\v1
 			'global'  		=> 'recipients/',
 			'byId'    		=> 'recipients/%s',
 			'byEmail' 		=> 'recipients/by_email/%s',
+			'byKt' 			=> 'recipients/by_kt/%s',
 			'getContacts' 	=> 'recipients/get_contacts/%s',
 			'AddContact' 	=> 'recipients/add_contact/%s',
 		];
@@ -55,6 +56,20 @@ namespace Zenter\Api\v1
 			if (filter_var($email, FILTER_VALIDATE_EMAIL))
 			{
 				$recipientData = $this->restClient->Call(sprintf($this->actions['byEmail'], urlencode($email)));
+				if ($this->restClient->GetStatusCode() == 200)
+				{
+					return Helper::JsonToObject($recipientData);
+				}
+
+			}
+			return null;
+		}
+
+		public function GetByKt($kt)
+		{
+			if (filter_var($kt, FILTER_VALIDATE_EMAIL))
+			{
+				$recipientData = $this->restClient->Call(sprintf($this->actions['byKt'], urlencode($kt)));
 				if ($this->restClient->GetStatusCode() == 200)
 				{
 					return Helper::JsonToObject($recipientData);
