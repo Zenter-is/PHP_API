@@ -142,7 +142,7 @@ namespace Zenter\Api\v1
 		 * @return bool
 		 * @throws Exception
 		 */
-		public function AddContact($company_id, $contact_id, $position)
+		public function AddContact($company_id, $contact_id, $position = 'null')
 		{
 			$data = [
 					'recipient_id' => $contact_id,
