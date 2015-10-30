@@ -3,6 +3,8 @@
 namespace Zenter\Api\v1
 {
 
+	use Exception;
+
 	class CurlHttpClient implements IHttpClient
 	{
 		private $username;
@@ -76,6 +78,11 @@ namespace Zenter\Api\v1
 			$response = curl_exec($handle);
 
 			$this->responseCode = curl_getinfo($handle, CURLINFO_HTTP_CODE);
+
+			if($response === 'Access to the Zenter API is restricted.')
+			{
+				throw new Exception('Authentication to API Invalid');
+			}
 
 			return $response;
 		}
