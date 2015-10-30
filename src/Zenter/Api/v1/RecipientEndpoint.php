@@ -152,6 +152,24 @@ namespace Zenter\Api\v1
 
 			return ($this->restClient->GetStatusCode() == 200);
 		}
+
+		public function GetByTrackingId($trackingId)
+		{
+			if(!$trackingId || $trackingId < 1 || !is_numeric($trackingId))
+			{
+				throw new Exception("Tracking id invalid");
+			}
+
+			$action = '/recipients/byTrackingId/' . $trackingId;
+			$rawRecipient = $this->restClient->call($action);
+
+			if(!$rawRecipient)
+			{
+				return null;
+			}
+			return Helper::JsonToObject($rawRecipient);
+
+		}
 	}
 }
 
