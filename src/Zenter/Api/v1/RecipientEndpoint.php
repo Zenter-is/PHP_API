@@ -185,6 +185,44 @@ namespace Zenter\Api\v1
 			return Helper::JsonToObject($rawRecipient);
 
 		}
+
+		/**
+		 * @param $id
+		 *
+		 * @return array|null
+		 * @throws Exception
+		 */
+		public function getNotes($id)
+		{
+			if(!$id || $id < 1 || !is_numeric($id))
+			{
+				throw new Exception("id invalid");
+			}
+
+			$action = '/recipients/' . $id . '/notes/';
+			$jsonArray = $this->restClient->call($action);
+
+			return Helper::JsonToArray($jsonArray);
+		}
+
+		/**
+		 * @param $id
+		 *
+		 * @return bool
+		 * @throws Exception
+		 */
+		public function addNote($id)
+		{
+			if(!$id || $id < 1 || !is_numeric($id))
+			{
+				throw new Exception("id invalid");
+			}
+
+			$action = '/recipients/' . $id . '/notes/';
+			$this->restClient->call($action);
+
+			return ($this->restClient->GetStatusCode() == 200);
+		}
 	}
 }
 
