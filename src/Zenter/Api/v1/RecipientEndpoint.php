@@ -211,15 +211,23 @@ namespace Zenter\Api\v1
 		 * @return bool
 		 * @throws Exception
 		 */
-		public function addNote($id)
+		public function addNote($id, $content)
 		{
 			if(!$id || $id < 1 || !is_numeric($id))
 			{
 				throw new Exception("id invalid");
 			}
 
+			if($content === '' || $content === null)
+			{
+				throw new Exception("content can't be empty string or null");
+			}
+
 			$action = '/recipients/' . $id . '/notes/';
-			$this->restClient->call($action);
+			$data = [
+				'content' => $content
+			];
+			$this->restClient->call($action, $data, 'POST');
 
 			return ($this->restClient->GetStatusCode() == 200);
 		}
