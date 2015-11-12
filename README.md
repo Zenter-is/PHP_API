@@ -1,7 +1,7 @@
 #PHP_API
 
 
-##Using composer to include this project
+##Using composer to include this in your project
 
 Add the repository to the repository list in composer.json
 
@@ -14,7 +14,7 @@ Add the repository to the repository list in composer.json
   ]
 ```
 
-then add the require for this project
+then add the nessasery require
 
 ```
 composer require "zenter-is/php_api": "dev-master"
