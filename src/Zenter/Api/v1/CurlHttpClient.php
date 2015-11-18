@@ -51,7 +51,8 @@ namespace Zenter\Api\v1
 			switch (strtoupper($method))
 			{
 				case 'GET':
-					curl_setopt($handle, CURLOPT_URL, $url . '?' . $encodedData);
+					$url = $url . ($encodedData?'?'.$encodedData:'');
+					curl_setopt($handle, CURLOPT_URL, $url);
 					break;
 				case 'POST':
 					curl_setopt($handle, CURLOPT_URL, $url);
