@@ -15,6 +15,7 @@ namespace Zenter\Api\v1
 			'byKt' 			=> 'recipients/by_kt/%s',
 			'getContacts' 	=> 'recipients/get_contacts/%s',
 			'AddContact' 	=> 'recipients/add_contact/%s',
+			'byForeignId'	=> 'recipients/by_foreign_id/%s'
 		];
 		/**
 		 * @var IHttpClient
@@ -131,6 +132,19 @@ namespace Zenter\Api\v1
 		{
 			$recipient = $this->restClient->Call(sprintf($this->actions['byEmail'], urlencode($email)), $data, 'POST');
 			if ($this->restClient->GetStatusCode() != 200)
+			{
+				$recipient = $this->CreateRecipient($data);
+			}
+			return Helper::JsonToObject($recipient);
+		}
+
+		public function UpdateRecipientByForeignId($foreignId, array $data)
+		{
+			if(!is_string($foreignId))
+				throw new Exception("Id can only be a string");
+
+			$recipient =  $this->restClient->Call(sprintf($this->actions['byForeignId'], $foreignId), $data, 'POST');
+			if($this->restClient->GetStatusCode() != 200)
 			{
 				$recipient = $this->CreateRecipient($data);
 			}
