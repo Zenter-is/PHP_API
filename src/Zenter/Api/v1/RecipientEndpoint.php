@@ -46,6 +46,18 @@ namespace Zenter\Api\v1
 			return Helper::JsonToObject($data);
 		}
 
+		public function GetByForeignId($foreignId)
+		{
+			if(!$foreignId)
+			{
+				throw new Exception("Foreign Id is invalid");
+			}
+
+			$recipient =  $this->restClient->Call(sprintf($this->actions['byForeignId'], $foreignId));
+
+			return Helper::JsonToObject($recipient);
+		}
+
 		/**
 		 * @param string $email
 		 *
