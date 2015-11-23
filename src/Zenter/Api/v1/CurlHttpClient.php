@@ -40,9 +40,21 @@ namespace Zenter\Api\v1
 			{
 				foreach ($data as $key => $value)
 				{
-					if (strlen($encodedData) > 0)
-						$encodedData .= '&';
-					$encodedData .= $key . '=' . urlencode($value);
+					if(is_array($value))
+					{
+						foreach($value as $unit)
+						{
+							if (strlen($encodedData) > 0)
+								$encodedData .= '&';
+							$encodedData .= $key . '[]=' . urlencode($unit);
+						}
+					}
+					else
+					{
+						if (strlen($encodedData) > 0)
+							$encodedData .= '&';
+						$encodedData .= $key . '=' . urlencode($value);
+					}
 				}
 			}
 

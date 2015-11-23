@@ -262,12 +262,9 @@ namespace Zenter\Api\v1
 		{
 			$recipientsIds = $this->GetAll();
 
-			$recipientString = implode("&id[]=", $recipientsIds);
-
 			$data = [
-					'id[]' => $recipientString
+					'id' => $recipientsIds
 			];
-
 			$jsonArray = $this->restClient->call('recipients/GetAllByIds', $data);
 
 			return Helper::JsonToArray($jsonArray);
