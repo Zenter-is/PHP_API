@@ -257,6 +257,21 @@ namespace Zenter\Api\v1
 
 			return ($this->restClient->GetStatusCode() == 200);
 		}
+
+		public function getAllRecipients()
+		{
+			$recipientsIds = $this->GetAll();
+
+			$recipientString = implode("&id[]=", $recipientsIds);
+
+			$data = [
+					'id[]' => $recipientString
+			];
+
+			$jsonArray = $this->restClient->call('recipients/GetAllByIds', $data);
+
+			return Helper::JsonToArray($jsonArray);
+		}
 	}
 }
 
