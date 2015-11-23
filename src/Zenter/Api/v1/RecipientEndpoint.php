@@ -267,7 +267,7 @@ namespace Zenter\Api\v1
 			];
 			$jsonArray = $this->restClient->call('recipients/GetAllByIds', $data);
 
-			return Helper::JsonToArray($jsonArray);
+			return Helper::ForceJsonToArray($jsonArray);
 		}
 	}
 }
