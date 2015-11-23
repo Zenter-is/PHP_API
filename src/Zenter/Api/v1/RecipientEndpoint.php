@@ -98,8 +98,8 @@ namespace Zenter\Api\v1
 		 */
 		public function GetAll()
 		{
-			$data = json_decode($this->restClient->Call($this->actions['global']));
-			return Helper::ForceJsonToArray($data);
+			$data = $this->restClient->Call($this->actions['global']);
+			return Helper::JsonToArray($data);
 		}
 
 		/**
