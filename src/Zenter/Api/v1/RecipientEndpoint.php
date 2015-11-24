@@ -269,6 +269,16 @@ namespace Zenter\Api\v1
 
 			return Helper::ForceJsonToArray($jsonArray);
 		}
+
+		public function getByIds(array $recipientsIds)
+		{
+			$data = [
+					'id' => $recipientsIds
+			];
+			$jsonArray = $this->restClient->call('recipients/GetAllByIds', $data);
+
+			return Helper::JsonToArray($jsonArray);
+		}
 	}
 }
 

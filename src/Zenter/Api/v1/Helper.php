@@ -39,7 +39,7 @@ final class Helper
 		if ($jsonInput === '')
 			throw new Exception("jsonInput cannot be a empty string");
 
-		$data = json_decode($jsonInput);
+		$data = json_decode($jsonInput, true);
 
 		if($data === false)
 			return null;
