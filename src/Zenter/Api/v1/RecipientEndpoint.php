@@ -279,6 +279,15 @@ namespace Zenter\Api\v1
 
 			return Helper::JsonToArray($jsonArray);
 		}
+
+		public function RemoveRecipient($recipientId)
+		{
+			if($recipientId < 0 || !is_numeric($recipientId))
+			{
+			    throw new Exception("Recipient Id needs to be numeric");
+			}
+			$this->restClient->call('recipients/RemoveRecipient/'.$recipientId);
+		}
 	}
 }
 
