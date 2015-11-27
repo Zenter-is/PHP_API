@@ -92,6 +92,11 @@ namespace Zenter\Api\v1
 
 			$this->responseCode = curl_getinfo($handle, CURLINFO_HTTP_CODE);
 
+			if($this->responseCode === 0)
+			{
+				throw new Exception('Code 0 : Host not found, did you forget to change the http protocol(http/https)?');
+			}
+
 			if($response === 'Access to the Zenter API is restricted.')
 			{
 				throw new Exception('Authentication to API Invalid');
