@@ -20,6 +20,10 @@ class Api
 	 * @var AudienceEndpoint
 	 */
 	public $audiences;
+	/**
+	 * @var ProcedureEndpoint
+	 */
+	public $procedures;
 
 	/**
 	 * Api constructor.
@@ -37,5 +41,6 @@ class Api
 		$this->jobs = new JobEndpoint($client);
 		$this->lists = new ListEndpoint($client);
 		$this->audiences = new AudienceEndpoint($client);
+		$this->procedures = new ProcedureEndpoint($client);
 	}
 }
