@@ -147,7 +147,7 @@ namespace Zenter\Api\v1
 			{
 				$recipient = $this->CreateRecipient($data);
 			}
-			return Helper::JsonToObject($recipient);
+			return Helper::ForceJsonToObject($recipient);
 		}
 
 		public function UpdateRecipientByForeignId($foreignId, array $data)
