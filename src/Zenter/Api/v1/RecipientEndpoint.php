@@ -68,7 +68,7 @@ namespace Zenter\Api\v1
 		{
 			if (filter_var($email, FILTER_VALIDATE_EMAIL))
 			{
-				$recipientData = $this->restClient->Call(sprintf($this->actions['byEmail'], urlencode($email)));
+				$recipientData = $this->restClient->Call(sprintf($this->actions['byEmail'], $email));
 				if ($this->restClient->GetStatusCode() == 200)
 				{
 					return Helper::JsonToObject($recipientData);
@@ -82,7 +82,7 @@ namespace Zenter\Api\v1
 		{
 			if ($kt > 0)
 			{
-				$recipientData = $this->restClient->Call(sprintf($this->actions['byKt'], urlencode($kt)));
+				$recipientData = $this->restClient->Call(sprintf($this->actions['byKt'], $kt));
 				if ($this->restClient->GetStatusCode() == 200)
 				{
 					return Helper::JsonToObject($recipientData);
@@ -142,7 +142,7 @@ namespace Zenter\Api\v1
 		 */
 		public function UpdateRecipientByEmail($email, array $data)
 		{
-			$recipient = $this->restClient->Call(sprintf($this->actions['byEmail'], urlencode($email)), $data, 'POST');
+			$recipient = $this->restClient->Call(sprintf($this->actions['byEmail'], $email), $data, 'POST');
 			if ($this->restClient->GetStatusCode() != 200)
 			{
 				$recipient = $this->CreateRecipient($data);
