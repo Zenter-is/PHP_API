@@ -68,4 +68,23 @@ final class Helper
 
 		return (array)$data;
 	}
+
+	/**
+	 * @param $jsonInput
+	 *
+	 * @return object|null
+	 * @throws Exception
+	 */
+	public static function ForceJsonToObject($jsonInput)
+	{
+		if ($jsonInput === '')
+			throw new Exception("jsonInput cannot be a empty string");
+
+		$data = json_decode($jsonInput);
+
+		if($data === false)
+			return null;
+
+		return (object)$data;
+	}
 }
