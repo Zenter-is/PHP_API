@@ -44,6 +44,25 @@ namespace Zenter\Api\v1
 			return Helper::JsonToObject($categoryRaw);
 		}
 
+		public function GetAllCategoriesByGroupId($groupId)
+		{
+			if(!$groupId || !is_numeric($groupId) || $groupId < 1)
+			{
+				throw new Exception('Category id invalid');
+			}
+
+			$action = '/audiences/categories/all/' . $groupId;
+			$categoriesRaw = $this->restClient->call($action);
+
+			$output = [];
+			foreach ($categoriesRaw as $ble)
+			{
+				$output[] = Helper::JsonToObject($categoryRaw);
+			}
+
+			return $output;
+		}
+
 		/**
 		 * @param $title
 		 * @param $groupId
@@ -271,5 +290,16 @@ namespace Zenter\Api\v1
 			return current($groups)->id;
 		}
 
+		public function flushRecipientFromCategory($categoryId, $recipientId)
+		{
+			if (!$categoryId || !$recipientId)
+			{
+				throw new Exception('Flush Category error.');
+			}
+			$action = '/audiences/categories/flushRecipient/' . $categoryId;
+			$this->restClient->call($action);
+
+			return ($this->restClient->GetStatusCode() == 200);
+		}
 	}
 }
