@@ -289,7 +289,7 @@ namespace Zenter\Api\v1
 			{
 				throw new Exception('Flush Category error.');
 			}
-			$action = '/audiences/categories/flushRecipient/' . $categoryId;
+			$action = '/audiences/categories/flushRecipient/' . $categoryId . '/' . $recipientId;
 			$this->restClient->call($action);
 
 			return ($this->restClient->GetStatusCode() == 200);
