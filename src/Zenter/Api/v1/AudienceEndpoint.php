@@ -52,15 +52,8 @@ namespace Zenter\Api\v1
 			}
 
 			$action = '/audiences/categories/all/' . $groupId;
-			$categoriesRaw = $this->restClient->call($action);
-
-			$output = [];
-			foreach ($categoriesRaw as $ble)
-			{
-				$output[] = Helper::JsonToObject($categoryRaw);
-			}
-
-			return $output;
+			$data = $this->restClient->call($action);
+			return Helper::JsonToArray($data);
 		}
 
 		/**
