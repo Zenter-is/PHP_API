@@ -145,7 +145,7 @@ namespace Zenter\Api\v1
 			$recipient = $this->restClient->Call(sprintf($this->actions['byEmail'], $email), $data, 'POST');
 			if ($this->restClient->GetStatusCode() != 200)
 			{
-				$recipient = $this->CreateRecipient($data);
+				return $this->CreateRecipient($data);
 			}
 			return Helper::ForceJsonToObject($recipient);
 		}
@@ -158,7 +158,7 @@ namespace Zenter\Api\v1
 			$recipient =  $this->restClient->Call(sprintf($this->actions['byForeignId'], $foreignId), $data, 'POST');
 			if($this->restClient->GetStatusCode() != 200)
 			{
-				$recipient = $this->CreateRecipient($data);
+				return $this->CreateRecipient($data);
 			}
 			return Helper::JsonToObject($recipient);
 		}
