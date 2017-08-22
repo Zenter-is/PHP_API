@@ -150,6 +150,17 @@ namespace Zenter\Api\v1
 			return Helper::ForceJsonToObject($recipient);
 		}
 
+		public function UpdateRecipientByKt($kt, array $data)
+		{
+			$recipient = $this->GetByKt($kt);
+			if ($recipient)
+			{
+				return $recipient
+			}
+
+			return $this->CreateRecipient($data);
+		}
+
 		public function UpdateRecipientByForeignId($foreignId, array $data)
 		{
 			if(!is_string($foreignId))
