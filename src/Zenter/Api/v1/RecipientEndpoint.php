@@ -155,7 +155,7 @@ namespace Zenter\Api\v1
 			$recipient = $this->GetByKt($kt);
 			if ($recipient)
 			{
-				return $recipient
+				return $recipient;
 			}
 
 			return $this->CreateRecipient($data);
