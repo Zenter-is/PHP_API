@@ -152,13 +152,12 @@ namespace Zenter\Api\v1
 
 		public function UpdateRecipientByKt($kt, array $data)
 		{
-			$recipient = $this->GetByKt($kt);
-			if ($recipient)
+			$recipient = $this->restClient->Call(sprintf($this->actions['byKt'], $kt), $data, 'POST');
+			if ($this->restClient->GetStatusCode() != 200)
 			{
-				return $recipient;
+				return $this->CreateRecipient($data);
 			}
-
-			return $this->CreateRecipient($data);
+			return Helper::ForceJsonToObject($recipient);
 		}
 
 		public function UpdateRecipientByForeignId($foreignId, array $data)
