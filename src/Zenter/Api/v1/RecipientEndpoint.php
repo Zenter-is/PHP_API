@@ -152,6 +152,12 @@ namespace Zenter\Api\v1
 
 		public function UpdateRecipientByKt($kt, array $data)
 		{
+			//Clean up spaces if there are any
+			$kt = str_replace(' ', '', $kt);
+
+			//Clean up hyphen if there are any
+			$kt = str_replace('-', '', $kt);
+
 			$recipient = $this->restClient->Call(sprintf($this->actions['byKt'], $kt), $data, 'POST');
 			if ($this->restClient->GetStatusCode() != 200)
 			{
