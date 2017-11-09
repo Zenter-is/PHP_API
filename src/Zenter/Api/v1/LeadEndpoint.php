@@ -11,11 +11,12 @@ namespace Zenter\Api\v1
 			$this->restClient = $restClient;
 		}
 
-		public function AddRecipient($recipientId, $originId)
+		public function AddRecipient($recipientId, $originId, $topic)
 		{
 			$data = [
 				'recipient_id' => $recipientId,
 				'origin_id' => $originId,
+				'topic' => $topic
 			];
 
 			$action = "/leads/add";
