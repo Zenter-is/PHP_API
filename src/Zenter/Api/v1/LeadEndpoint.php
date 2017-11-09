@@ -14,8 +14,8 @@ namespace Zenter\Api\v1
 		public function AddRecipient($recipientId, $originId)
 		{
 			$data = [
-				'recipient_id' = $recipientId,
-				'origin_id' = $originId,
+				'recipient_id' => $recipientId,
+				'origin_id' => $originId,
 			];
 
 			$action = "/leads/add";
