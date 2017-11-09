@@ -25,6 +25,8 @@ class Api
 	 */
 	public $procedures;
 
+	public $leads;
+
 	/**
 	 * Api constructor.
 	 *
@@ -37,10 +39,11 @@ class Api
 	{
 		$client = new CurlHttpClient($username, $password, $domain .'/api/v1/', $protocol);
 
-		$this->recipients = new RecipientEndpoint($client);
-		$this->jobs = new JobEndpoint($client);
-		$this->lists = new ListEndpoint($client);
-		$this->audiences = new AudienceEndpoint($client);
-		$this->procedures = new ProcedureEndpoint($client);
+		$this->recipients 	= new RecipientEndpoint($client);
+		$this->jobs 		= new JobEndpoint($client);
+		$this->lists 		= new ListEndpoint($client);
+		$this->audiences 	= new AudienceEndpoint($client);
+		$this->procedures 	= new ProcedureEndpoint($client);
+		$this->leads 		= new LeadEndpoint($client);
 	}
 }
