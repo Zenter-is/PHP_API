@@ -80,7 +80,13 @@ namespace Zenter\Api\v1
 
 		public function GetByKt($kt)
 		{
-			if ($kt > 0)
+            //Clean up spaces if there are any
+			$kt = str_replace(' ', '', (string)$kt);
+
+			//Clean up hyphen if there are any
+			$kt = str_replace('-', '', $kt);
+
+			if ($kt !== '')
 			{
 				$recipientData = $this->restClient->Call(sprintf($this->actions['byKt'], $kt));
 				if ($this->restClient->GetStatusCode() == 200)
